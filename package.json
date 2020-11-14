@@ -1,6 +1,6 @@
 {
-  "name": "genkai-client",
-  "version": "1.0.0",
+  "name": "@genkai/genkai-client",
+  "version": "1.1.2",
   "description": "client library for (Go) genkai-net/genkai-server-go",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,9 @@
   "bugs": {
     "url": "https://github.com/genkai-net/genkai-client-js/issues"
   },
-  "homepage": "https://github.com/genkai-net/genkai-client-js"
+  "homepage": "https://github.com/genkai-net/genkai-client-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genkai-net/genkai-client-js.git"
+  }
 }

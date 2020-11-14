@@ -70,34 +70,36 @@ let getHandlerJSON = (obj, prop) => {
 };
 
 let GenkaiClient = (handler) => {
-    return (remote, entrypoint, debug) => {
+    return (remote, entrypoint, config) => {
         if (!entrypoint) {
             entrypoint = "__genkai_endpoint"
         }
 
-        let session = entrypoint + makeSession();
-        if (typeof sessionStorage !== "undefined") {
-            session = sessionStorage.getItem("genkai-session") || session;
-            sessionStorage.setItem("genkai-session", session);
+        let session = makeSession();
+        config = config || {};
+        let store = config.storage || sessionStorage;
+        if (typeof store !== "undefined") {
+            session = store.getItem("genkai-session-" + entrypoint) || session;
+            store.setItem("genkai-session-" + entrypoint, session);
         }
 
         return new Proxy({
-            debug,
+            debug: config.debug,
             remote,
             entrypoint,
             session,
             newSession() {
-                sessionStorage.removeItem("genkai-session");
-                this.session = entrypoint + makeSession();
-                if (typeof sessionStorage !== "undefined") {
-                    sessionStorage.setItem("genkai-session", session);
+                store.removeItem("genkai-session-" + entrypoint);
+                this.session = makeSession();
+                if (typeof store !== "undefined") {
+                    store.setItem("genkai-session-" + entrypoint, session);
                 }
             }
         }, {
             get: handler
         })
     };
-}
+};
 
 
 module.exports = {
